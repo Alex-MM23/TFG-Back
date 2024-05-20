@@ -2,8 +2,15 @@ import express, { Application } from 'express';
 import cors from 'cors';
 import routesProduct from '../routes/product';
 import routesUser from '../routes/user';
+import sequelize from '../db/connection';
 import { Product } from './product';
+import { Category } from './category';
 import { User } from './user';
+import { Profile } from './profile';
+import { UserProfile } from './userProfile';
+import { Order } from './order';
+import { OrderLine } from './orderLine';
+import './associations'; // Importar las asociaciones
 
 class Server {
     private app: Application;
@@ -12,17 +19,16 @@ class Server {
     constructor() {
         this.app = express();
         this.port = process.env.PORT || '3001';
-        this.listen();
         this.midlewares();
         this.routes();
         this.dbConnect();
-
+        this.listen();
     }
 
     listen() {
         this.app.listen(this.port, () => {
-            console.log('Aplicacion corriendo en el puerto ' + this.port);
-        })
+            console.log('Aplicación corriendo en el puerto ' + this.port);
+        });
     }
 
     routes() {
@@ -40,8 +46,8 @@ class Server {
 
     async dbConnect() {
         try {
-            await Product.sync()
-            await User.sync();
+            await sequelize.sync({ force: true }); // Cambia a `false` en producción para no perder datos
+            console.log('Database & tables created!');
         } catch (error) {
             console.error('Unable to connect to the database:', error);
         }

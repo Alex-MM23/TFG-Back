@@ -1,11 +1,12 @@
 import { Request, Response} from 'express';
 import bcrypt from 'bcrypt';
 import { User } from '../models/user';
+import { UserProfile } from '../models/userProfile';
 import jwt from 'jsonwebtoken';
 
 export const newUser = async (req: Request, res: Response) => {
 
-    const { username, password } = req.body;
+    const { username, password, name, surname, email } = req.body;
 
     // Validamos si el usuario ya existe en la base de datos
     const user = await User.findOne({ where: { username: username } });
@@ -20,11 +21,19 @@ export const newUser = async (req: Request, res: Response) => {
     
     try {
         // Guardarmos usuario en la base de datos
-        await User.create({
+        const newUser = await User.create({
             username: username,
-            password: hashedPassword
-        })
-    
+            password: hashedPassword,
+            name: name,
+            surname: surname,
+            email: email
+        });
+        
+        await UserProfile.create({
+            userId: newUser.id,
+            profileId: 2 // Asumiendo que el ID 2 corresponde a ROL_CLIENTE
+        });
+
         res.json({
             msg: `Usuario ${username} creado exitosamente!`
         })
@@ -64,3 +73,5 @@ export const loginUser = async (req: Request, res: Response) => {
    
    res.json(token);
 }
+
+//2024-05-20 12:15:30

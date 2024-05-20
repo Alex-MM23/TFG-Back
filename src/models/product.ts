@@ -12,5 +12,21 @@ export const Product = sequelize.define('product', {
     },
     description: {
         type: DataTypes.STRING
+    },
+    price: {
+        type: DataTypes.INTEGER
+    },
+    title: {
+        type: DataTypes.STRING
+    },
+    cantidad: {
+        type: DataTypes.INTEGER
+    },
+    categoryId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: 'categories', // El nombre de la tabla en plural
+            key: 'id'
+        }
     }
-}, )
+}, ) 
