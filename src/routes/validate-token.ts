@@ -12,16 +12,7 @@ const validateToken = (req: Request, res: Response, next: NextFunction) => {
             jwt.verify(bearerToken, process.env.SECRET_KEY || 'pepito123');
             next()
         } catch (error) {
-            res.status(401).json({
-                msg: 'token no valido'
-            })
-        }
-
-    } else {
-        res.status(401).json({
-            msg: 'Acceso denegado'
-        })
-    }
+        }}
 
 }
 
