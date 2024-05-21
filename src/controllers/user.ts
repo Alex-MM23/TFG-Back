@@ -66,12 +66,23 @@ export const loginUser = async (req: Request, res: Response) => {
     })
    }
 
+   // Obtenemos el profileId
+   const userProfile = await UserProfile.findOne({ where: { userId: user.id } });
+   if (!userProfile) {
+       return res.status(400).json({
+           msg: 'No se pudo encontrar el perfil del usuario'
+       });
+   }
+
    // Generamos token
    const token = jwt.sign({
     username: username
    }, process.env.SECRET_KEY || 'pepito123');
    
-   res.json(token);
+   res.json({
+    token,
+    profileId: userProfile.profileId
+});
 }
 
 //2024-05-20 12:15:30

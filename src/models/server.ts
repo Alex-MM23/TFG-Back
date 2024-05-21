@@ -2,6 +2,7 @@ import express, { Application } from 'express';
 import cors from 'cors';
 import routesProduct from '../routes/product';
 import routesUser from '../routes/user';
+import routesCategory from '../routes/category';
 import sequelize from '../db/connection';
 import { Product } from './product';
 import { Category } from './category';
@@ -34,6 +35,7 @@ class Server {
     routes() {
         this.app.use('/api/products', routesProduct);
         this.app.use('/api/users', routesUser);
+        this.app.use('/api/categories', routesCategory);
     }
 
     midlewares() {
