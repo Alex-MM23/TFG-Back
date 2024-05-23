@@ -1,48 +1,38 @@
-import { DataTypes, Model, Optional } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import sequelize from '../db/connection';
+import { User } from './user';
 
-interface OrderAttributes {
-  id: number;
-  orderDate: Date;
-  totalAmount: number;
-  userId: number;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
-interface OrderCreationAttributes extends Optional<OrderAttributes, 'id'> {}
-
-class Order extends Model<OrderAttributes, OrderCreationAttributes> implements OrderAttributes {
+export class Order extends Model {
   public id!: number;
   public orderDate!: Date;
   public totalAmount!: number;
   public userId!: number;
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
 }
 
 Order.init({
   id: {
     type: DataTypes.INTEGER,
-    primaryKey: true,
     autoIncrement: true,
+    primaryKey: true
   },
   orderDate: {
     type: DataTypes.DATE,
-    allowNull: false,
+    allowNull: false
   },
   totalAmount: {
     type: DataTypes.FLOAT,
-    allowNull: false,
+    allowNull: false
   },
   userId: {
     type: DataTypes.INTEGER,
     allowNull: false,
-  },
+    references: {
+      model: User,
+      key: 'id'
+    }
+  }
 }, {
   sequelize,
-  modelName: 'Order',
-  timestamps: true,
+  tableName: 'orders',
+  timestamps: true
 });
-
-export { Order, OrderAttributes, OrderCreationAttributes };
