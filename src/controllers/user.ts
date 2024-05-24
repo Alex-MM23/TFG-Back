@@ -85,4 +85,15 @@ export const loginUser = async (req: Request, res: Response) => {
 });
 }
 
+export const getUser = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const listUser = await User.findAll();
+      res.json(listUser);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
+
+
 //2024-05-20 12:15:30

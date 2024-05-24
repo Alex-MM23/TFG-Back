@@ -29,3 +29,13 @@ export const createOrder = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Error creating order', error });
   }
 };
+
+export const getOrder = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const listUser = await Order.findAll();
+    res.json(listUser);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
