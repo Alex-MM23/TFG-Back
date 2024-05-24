@@ -19,6 +19,9 @@ export const Product = sequelize.define('product', {
     title: {
         type: DataTypes.STRING
     },
+    img: {
+        type: DataTypes.STRING
+    },
     cantidad: {
         type: DataTypes.INTEGER
     },
