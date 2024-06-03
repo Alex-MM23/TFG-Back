@@ -19,6 +19,9 @@ export const FormFormulario = sequelize.define('formFormulario' , {
     },
     city: {
         type: DataTypes.STRING
+    },
+    coment: {
+        type: DataTypes.STRING
     }
 
 })
