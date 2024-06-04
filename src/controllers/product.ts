@@ -7,23 +7,17 @@ export const getProducts = async (req: Request, res: Response) => {
     res.json(listProducts)
 }
 
-export const getProductByCategory = async (req: Request, res: Response) => {
-  const categoryId = req.query.categoryId;
-
-  if (!categoryId) {
-    return res.status(400).json({ message: 'Falta el parámetro categoryId' });
-  }
+export const getProductsByCategory = async (req: Request, res: Response) => {
+  const { categoryId } = req.query;
 
   try {
-    const products = await Product.findAll({
-      where: { categoryId: categoryId }
-    });
+    const products = await Product.findAll({ where: { categoryId } });
     res.status(200).json(products);
   } catch (error) {
-    console.error('Error al obtener productos por categoría:', error);
-    res.status(500).json({ message: 'Error al obtener productos por categoría' });
+    console.error('Error fetching products by category:', error);
+    res.status(500).json({ message: 'Error fetching products by category', error });
   }
-}
+};
 
 export const createProduct = async (req: Request, res: Response) => {
     const { name, description, price, title, cantidad, categoryId } = req.body;
